@@ -1,0 +1,43 @@
+------------------------ Comandos Utilizados no SQL Alchemy banco de dados utilizado em Python ------------------------------
+
+from flaskblog import db                    -> Importa banco do projeto
+db.create_all()                             -> Cria o arquivo do banco
+from flaskblog import User, Post            -> Import as classes que definem as funções das tabelas do banco
+db.session.add(user_*)                      -> Entrada de dados para uma tabela. É necessaria especificar a tabela
+db.session.commit                           -> Envia alterações feita nas tabelas para o banco
+User.query.all()                            -> Verifica tudo que esta salvo na tabela de User
+User.query.first()                          -> Retorna primeira linha da tabela User
+User.query.filter_by(username'Vitor').all() -> Procura por em toda a tabela pelo nome Vitor e retorna
+User.query.filter_by(username'Vitor').first() -> Procura na tabela User pelo nome e retorna o primeiro que encontrar
+User.query.get(1)                             -> Retorna primeira entrada da tabela User
+
+user = User.query.get(1) -> user recebe a primeira entrada da tabela User
+
+for post in user.posts: -> Percorre os posts do user
+    print(post.title)   -> Imprime o Titulo dos posts encontrados do user
+
+dp.drop_all() -> Exclui todas as tabelas do banco
+
+
+
+bcrypt = Bcrypt()                                -> Cria objeto da classe Bcrypt
+bcrypt.generate_password_hash('testing')	 -> Gerando incriptação na senha testing
+bcrypt.check_password_hash(hashed_pw, 'testing') -> Testar senha incriptada testing. Retorna Tru
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
