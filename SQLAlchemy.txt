@@ -18,7 +18,7 @@ for post in user.posts: -> Percorre os posts do user
 
 dp.drop_all() -> Exclui todas as tabelas do banco
 
-
+----------------------- Comandos utilizados Bcrypt -----------------------------------------------------------------------
 
 bcrypt = Bcrypt()                                -> Cria objeto da classe Bcrypt
 bcrypt.generate_password_hash('testing')	 -> Gerando incriptação na senha testing
