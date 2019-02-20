@@ -9,6 +9,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
 
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -22,13 +23,15 @@ def home():
 def about():
 	return render_template('about.html', title='About')
 
+
+
 @app.route("/register",  methods=['GET', 'POST'])
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		## Encriptar senha e codificar para utf-8 e atribuir saida a hashed_password 
+		## Encriptar senha e codificar para utf-8 e atribuir saida a hashed_password  
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') 
 		## Manda para a variavel user os dados que serão salvos na tabela User do banco de dados
 		user = User(username=form.username.data, email=form.email.data, password=hashed_password)
@@ -39,6 +42,8 @@ def register():
 		flash('Your account has been created! You are now able to log in', 'success')
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
+
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -56,6 +61,8 @@ def login():
 			flash('Login Unsuccessful. Please check email and password', 'danger')
 
 	return render_template('login.html', title='Login', form=form)
+
+
 
 @app.route("/logout")
 def logout():
@@ -119,6 +126,7 @@ def post(post_id):
 	return render_template('post.html', title=post.title, post=post)
 
 
+
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -137,6 +145,8 @@ def update_post(post_id):
 		form.content.data = post.content
 	return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
 
+
+
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
@@ -147,6 +157,7 @@ def delete_post(post_id):
 	db.session.commit()
 	flash('Your post has been deleted!', 'success')
 	return redirect(url_for('home'))
+
 
 
 @app.route("/user/<string:username>")
@@ -164,10 +175,10 @@ def send_reset_email(user):
 	token = user.get_reset_token()
 	msg = Message('Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
 	msg.body = f''' To reset your password, visit the following link:
-{url_for('reset_token', token=token, _external=True)}
+	{url_for('reset_token', token=token, _external=True)}
 
-If you did not make this request then simply ignore this email and no change will be made.
-'''
+	If you did not make this request then simply ignore this email and no change will be made.
+	'''
 	mail.send(msg)
 
 
@@ -185,8 +196,9 @@ def reset_request():
 	return render_template('reset_request.html', title='Reset Password', form=form)
 
 
+
 @app.route("/reset_password/<token>", methods=['GET','POST'])
-def reset_token():
+def reset_token(token):
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	user = User.verify_reset_token(token)
@@ -194,12 +206,9 @@ def reset_token():
 		flash('That is an invalid or expired token', 'warning')
 		return redirect(url_for('reset_request'))
 	form = ResetPasswordForm()
-	if form.validate_on_submit():
-		## Encriptar senha e codificar para utf-8 e atribuir saida a hashed_password 
+	if form.validate_on_submit(): 
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') 
 		user.password = hashed_password
-
-
 		db.session.commit()
 		flash('Your password has been updated! You are now able to log in', 'success')
 		return redirect(url_for('login'))
