@@ -1,12 +1,6 @@
 # FlaskBlog
-Exercício de criação de um blog em python com o framework flask 
+	Exercício de criação de um blog em python com o framework flask 
 
-#Instalar as dependências do Python
+#Instalar as dependências do Python com:
+	pip install -r requirements.txt
 
-pip install flask-wtf
-
-pip install flask-sqlalchemy
-
-pip install flask-bcrypt
-
-pip install flask-login
